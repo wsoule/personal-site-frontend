@@ -3,6 +3,7 @@ import Counter from '../islands/Counter.tsx';
 import IconExternalLink from 'https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/external-link.tsx';
 import { Handlers } from '$fresh/server.ts';
 import { getCount, kv, setCount } from '../utils/db.ts';
+import { useEffect } from 'preact/hooks';
 
 export const handler: Handlers = {
   GET: async (req, ctx) => {
@@ -43,6 +44,7 @@ export const handler: Handlers = {
       return new Response(body, {
         headers: {
           'content-type': 'text/event-stream',
+          'Cache-Control': 'no-cache',
         },
       });
     }
@@ -56,8 +58,10 @@ export const handler: Handlers = {
   },
   POST: async (req, ctx) => {
     const body = await req.json();
-    await setCount(body.add);
-    return Response.json({ ok: true });
+    await setCount(body.add === true);
+    return Response.json({ ok: true }, {
+      headers: { 'Content-Type': 'application/json' },
+    });
   },
 };
 export default function Home(
@@ -65,7 +69,8 @@ export default function Home(
     data: { data: number | null; latency: number };
   },
 ) {
-  const count = useSignal(3);
+  const count = useSignal(data ?? 0);
+
   return (
     <div class='px-4 py-8 mx-auto bg-[#86efac]'>
       <div class='max-w-screen-md mx-auto flex flex-col items-center justify-center'>
@@ -94,7 +99,10 @@ export default function Home(
             Deno<IconExternalLink class='w-5 h-5' />
           </a>
         </p>
-        <Counter initialData={data ?? 0} latency={latency} />
+        <Counter
+          counter={count}
+          latency={latency}
+        />
       </div>
     </div>
   );
