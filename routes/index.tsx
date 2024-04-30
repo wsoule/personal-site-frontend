@@ -1,8 +1,70 @@
 import { useSignal } from '@preact/signals';
 import Counter from '../islands/Counter.tsx';
 import IconExternalLink from 'https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/external-link.tsx';
+import { Handlers } from '$fresh/server.ts';
+import { getCount, kv, setCount } from '../utils/db.ts';
 
-export default function Home() {
+export const handler: Handlers = {
+  GET: async (req, ctx) => {
+    const accept = req.headers.get('accept');
+    // const url = new URL(req.url);
+
+    if (accept === 'text/event-stream') {
+      const stream = kv.watch([['count']]).getReader();
+      const body = new ReadableStream({
+        async start(controller) {
+          console.log(
+            `opened stream for counter, remote ${
+              JSON.stringify(ctx.remoteAddr)
+            }`,
+          );
+          while (true) {
+            try {
+              if ((await stream.read()).done) {
+                return;
+              }
+              const data = await getCount();
+              const chunk = `data: ${JSON.stringify(data)}\n\n`;
+              controller.enqueue(new TextEncoder().encode(chunk));
+            } catch (e) {
+              console.error(`Error refreshing count.`);
+            }
+          }
+        },
+        cancel() {
+          stream.cancel();
+          console.log(
+            `Closed stream for counter, remote ${
+              JSON.stringify(ctx.remoteAddr)
+            }`,
+          );
+        },
+      });
+      return new Response(body, {
+        headers: {
+          'content-type': 'text/event-stream',
+        },
+      });
+    }
+
+    const startTime = Date.now();
+    const data = await getCount();
+    const endTime = Date.now();
+    const res = await ctx.render({ data, latency: endTime - startTime });
+    res.headers.set('x-count-load-time', '' + (endTime - startTime));
+    return res;
+  },
+  POST: async (req, ctx) => {
+    const body = await req.json();
+    await setCount(body.add);
+    return Response.json({ ok: true });
+  },
+};
+export default function Home(
+  { data: { data, latency } }: {
+    data: { data: number | null; latency: number };
+  },
+) {
   const count = useSignal(3);
   return (
     <div class='px-4 py-8 mx-auto bg-[#86efac]'>
@@ -32,7 +94,7 @@ export default function Home() {
             Deno<IconExternalLink class='w-5 h-5' />
           </a>
         </p>
-        <Counter count={count} />
+        <Counter initialData={data ?? 0} latency={latency} />
       </div>
     </div>
   );
