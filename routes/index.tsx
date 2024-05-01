@@ -1,6 +1,7 @@
 import { useSignal } from '@preact/signals';
 import Counter from '../islands/Counter.tsx';
 import IconExternalLink from 'https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/external-link.tsx';
+import IconBrandGithub from 'https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/brand-github.tsx';
 import { Handlers } from '$fresh/server.ts';
 import { DbStruct, getCount, kv, setCount } from '../utils/db.ts';
 import { useEffect } from 'preact/hooks';
@@ -107,20 +108,20 @@ export default function Home(
           />
         </div>
       </div>
-      <div class={'px-20'}>
+      <div class={'px-4 sm:px-20'}>
         <h2 class={'font-bold'}>Credits:</h2>
-        <p class={'flex font-semibold'}>
-          Dino Avatar:&nbsp;<code class={'font-medium'}>
-            <a
+        <ul class={'list-desc'}>
+          <li class={'flex font-semibold'}>
+            &#x2022;&nbsp;<a
               class={'flex hover:text-blue-500 hover:underline'}
               href={'https://github.com/hashrock/deno-avatar/tree/main'}
               target={'_blank'}
             >
-              https://github.com/hashrock/deno-avatar/tree/main
-              <IconExternalLink class='w-5 h-5' />
+              Dino Avatar&nbsp;
+              <IconBrandGithub class='w-6 h-6' />
             </a>
-          </code>
-        </p>
+          </li>
+        </ul>
       </div>
     </>
   );
