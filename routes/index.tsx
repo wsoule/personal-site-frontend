@@ -108,20 +108,22 @@ export default function Home(
           />
         </div>
       </div>
-      <div class={'px-4 sm:px-20'}>
-        <h2 class={'font-bold'}>Credits:</h2>
-        <ul class={'list-desc'}>
-          <li class={'flex font-semibold'}>
-            &#x2022;&nbsp;<a
-              class={'flex hover:text-blue-500 hover:underline'}
-              href={'https://github.com/hashrock/deno-avatar/tree/main'}
-              target={'_blank'}
-            >
-              Dino Avatar&nbsp;
-              <IconBrandGithub class='w-6 h-6' />
-            </a>
-          </li>
-        </ul>
+      <div class={'p-4'}>
+        <div class={'px-4 sm:px-20'}>
+          <h2 class={'font-bold'}>Credits:</h2>
+          <ul class={'list-desc'}>
+            <li class={'flex font-semibold'}>
+              &#x2022;&nbsp;<a
+                class={'flex hover:text-blue-500 hover:underline'}
+                href={'https://github.com/hashrock/deno-avatar/tree/main'}
+                target={'_blank'}
+              >
+                Dino Avatar&nbsp;
+                <IconBrandGithub class='w-6 h-6' />
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
     </>
   );
