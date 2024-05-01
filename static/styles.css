@@ -1,3 +1,31 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: 'Monorama-Regular';
+  src: url('/fonts/Monorama-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Monorama-Medium';
+  src: url('/fonts/Monorama-Medium.otf') format('opentype');
+  font-weight: lighter;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Monorama-Bold';
+  src: url('/fonts/Monorama-Bold.otf') format('opentype');
+  font-weight: bolder;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Monorama-SemiBold';
+  src: url('/fonts/Monorama-SemiBold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+}

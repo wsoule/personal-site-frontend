@@ -69,40 +69,57 @@ export default function Home(
 ) {
   const count = useSignal(data.count ?? 0);
   const counter = useSignal(data.totCount ?? 0);
+  const getRandom = Math.floor(Math.random() * 16777215).toString(16);
+
   return (
-    <div class='px-4 py-8 mx-auto bg-[#86efac]'>
-      <div class='max-w-screen-md mx-auto flex flex-col items-center justify-center'>
-        <img
-          class='my-6'
-          src='/logo.svg'
-          width='128'
-          height='128'
-          alt='the Fresh logo: a sliced lemon dripping with juice'
-        />
-        <h1 class='text-4xl font-bold'>Wyat Soule</h1>
-        <p class='my-4 flex'>
-          Built with&nbsp;
-          <a
-            class={'flex text-blue-500'}
-            href={'https://fresh.deno.dev/'}
-            target={'_blank'}
-          >
-            Fresh<IconExternalLink class='w-5 h-5' />
-          </a>, by&nbsp;
-          <a
-            class={'flex text-blue-500'}
-            href={'https://deno.com/'}
-            target={'_blank'}
-          >
-            Deno<IconExternalLink class='w-5 h-5' />
-          </a>
-        </p>
-        <Counter
-          count={count}
-          counter={counter}
-          latency={latency}
-        />
+    <>
+      <div class='px-4 py-8 mx-auto bg-[#86efac]'>
+        <div class='max-w-screen-md mx-auto flex flex-col items-center justify-center'>
+          <img
+            class='my-6 rounded-full'
+            src={`https://deno-avatar.deno.dev/avatar/${getRandom}.svg`}
+            width='128'
+            height='128'
+            alt='the Fresh logo: a sliced lemon dripping with juice'
+          />
+          <h1 class='text-4xl font-bold'>Wyat Soule</h1>
+          <p class='my-4 flex'>
+            Built with&nbsp;
+            <a
+              class={'flex text-blue-500'}
+              href={'https://fresh.deno.dev/'}
+              target={'_blank'}
+            >
+              Fresh<IconExternalLink class='w-5 h-5' />
+            </a>, by&nbsp;
+            <a
+              class={'flex text-blue-500'}
+              href={'https://deno.com/'}
+              target={'_blank'}
+            >
+              Deno<IconExternalLink class='w-5 h-5' />
+            </a>
+          </p>
+          <Counter
+            count={count}
+            counter={counter}
+            latency={latency}
+          />
+        </div>
       </div>
-    </div>
+      <div class={'px-20'}>
+        <h2 class={'font-bold'}>Credits:</h2>
+        <p class={'font-semibold'}>
+          Dino Avatar:&nbsp;<code class={'font-medium'}>
+            <a
+              class={'hover:text-sky-700 hover:underline'}
+              href={'https://github.com/hashrock/deno-avatar/tree/main'}
+            >
+              https://github.com/hashrock/deno-avatar/tree/main
+            </a>
+          </code>
+        </p>
+      </div>
+    </>
   );
 }
