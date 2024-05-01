@@ -86,14 +86,14 @@ export default function Home(
           <p class='my-4 flex'>
             Built with&nbsp;
             <a
-              class={'flex text-blue-500'}
               href={'https://fresh.deno.dev/'}
+              class={'flex hover:text-blue-500 hover:underline'}
               target={'_blank'}
             >
               Fresh<IconExternalLink class='w-5 h-5' />
             </a>, by&nbsp;
             <a
-              class={'flex text-blue-500'}
+              class={'flex hover:text-blue-500 hover:underline'}
               href={'https://deno.com/'}
               target={'_blank'}
             >
@@ -109,13 +109,15 @@ export default function Home(
       </div>
       <div class={'px-20'}>
         <h2 class={'font-bold'}>Credits:</h2>
-        <p class={'font-semibold'}>
+        <p class={'flex font-semibold'}>
           Dino Avatar:&nbsp;<code class={'font-medium'}>
             <a
-              class={'hover:text-sky-700 hover:underline'}
+              class={'flex hover:text-blue-500 hover:underline'}
               href={'https://github.com/hashrock/deno-avatar/tree/main'}
+              target={'_blank'}
             >
               https://github.com/hashrock/deno-avatar/tree/main
+              <IconExternalLink class='w-5 h-5' />
             </a>
           </code>
         </p>
