@@ -4,7 +4,8 @@ import IconExternalLink from 'https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/ext
 import IconBrandGithub from 'https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/brand-github.tsx';
 import { Handlers } from '$fresh/server.ts';
 import { DbStruct, getCount, kv, setCount } from '../utils/db.ts';
-import { useEffect } from 'preact/hooks';
+import Features from '../components/Features.tsx';
+import Header from '../components/Header.tsx';
 
 export const handler: Handlers = {
   GET: async (req, ctx) => {
@@ -74,40 +75,40 @@ export default function Home(
 
   return (
     <>
-      <div class='px-4 py-8 mx-auto bg-[#86efac]'>
-        <div class='max-w-screen-md mx-auto flex flex-col items-center justify-center'>
-          <img
-            class='my-6 rounded-full'
-            src={`https://deno-avatar.deno.dev/avatar/${getRandom}.svg`}
-            width='128'
-            height='128'
-            alt='the Fresh logo: a sliced lemon dripping with juice'
-          />
-          <h1 class='text-4xl font-bold'>Wyat Soule</h1>
-          <p class='my-4 flex'>
-            Built with&nbsp;
-            <a
-              href={'https://fresh.deno.dev/'}
-              class={'flex hover:text-blue-500 hover:underline'}
-              target={'_blank'}
-            >
-              Fresh<IconExternalLink class='w-5 h-5' />
-            </a>, by&nbsp;
-            <a
-              class={'flex hover:text-blue-500 hover:underline'}
-              href={'https://deno.com/'}
-              target={'_blank'}
-            >
-              Deno<IconExternalLink class='w-5 h-5' />
-            </a>
-          </p>
-          <Counter
-            count={count}
-            counter={counter}
-            latency={latency}
-          />
-        </div>
+      <Header active='/' />
+      <div class='px-4 py-8 mx-auto bg-[#86efac] max-w-screen-md mx-auto flex flex-col items-center justify-center'>
+        <img
+          class='my-6 rounded-full'
+          src={`https://deno-avatar.deno.dev/avatar/${getRandom}.svg`}
+          width='128'
+          height='128'
+          alt='the Fresh logo: a sliced lemon dripping with juice'
+        />
+        <h1 class='text-4xl font-bold'>Wyat Soule</h1>
+        <p class='my-4 flex'>
+          Built with&nbsp;
+          <a
+            href={'https://fresh.deno.dev/'}
+            class={'flex hover:text-blue-500 hover:underline'}
+            target={'_blank'}
+          >
+            Fresh<IconExternalLink class='w-5 h-5' />
+          </a>, by&nbsp;
+          <a
+            class={'flex hover:text-blue-500 hover:underline'}
+            href={'https://deno.com/'}
+            target={'_blank'}
+          >
+            Deno<IconExternalLink class='w-5 h-5' />
+          </a>
+        </p>
+        <Counter
+          count={count}
+          counter={counter}
+          latency={latency}
+        />
       </div>
+      <Features />
       <div class={'p-4'}>
         <div class={'px-4 sm:px-20'}>
           <h2 class={'font-bold'}>Credits:</h2>
