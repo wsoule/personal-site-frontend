@@ -22,3 +22,8 @@ export const setCount = async (add: boolean = true) => {
   await kv.set(['count'], tempCounter);
   return currCount.value ?? 0 + 1;
 };
+
+export const subscribeCount = (): void => {
+  const stream = kv.watch([['count']]);
+  const reader = stream.getReader();
+};

@@ -29,7 +29,6 @@ export default function Counter(props: CounterProps) {
   });
 
   const updateCount = async (increment: boolean) => {
-    console.log('doing here');
     await fetch('/', {
       method: 'POST',
       headers: {
