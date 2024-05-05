@@ -76,8 +76,7 @@ export default function Home(
 
   return (
     <>
-      <Header active='/' />
-      <div class='px-4 py-8 mx-auto bg-[#86efac] max-w-screen-md mx-auto flex flex-col items-center justify-center'>
+      <div class='px-4 py-8 bg-[#86efac] mx-auto flex flex-col items-center justify-center'>
         <img
           class='my-6 rounded-full'
           src={`https://deno-avatar.deno.dev/avatar/${getRandom}.svg`}
