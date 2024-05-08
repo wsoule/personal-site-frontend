@@ -3,6 +3,7 @@ import Header from '../components/Header.tsx';
 import { getEnvVar } from '../utils/functions.ts';
 export default function App({ Component, url }: PageProps) {
   const appendedUrl = url.href.replace(getEnvVar('URL'), '/');
+  console.log('appended url = ', appendedUrl);
   return (
     <html>
       <head>

@@ -12,7 +12,7 @@ export default function Counter(props: CounterProps) {
   const { count, counter, latency } = props;
   let eventSource: EventSource;
   self.addEventListener('load', () => {
-    eventSource = new EventSource('http://localhost:8000/');
+    eventSource = new EventSource('https://wyat.me/');
     eventSource.addEventListener('message', (event) => {
       const newData = JSON.parse(event.data);
       count.value = newData.count;
