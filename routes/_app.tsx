@@ -4,6 +4,7 @@ import { getEnvVar } from '../utils/functions.ts';
 export default function App({ Component, url }: PageProps) {
   const appendedUrl = url.href.replace(getEnvVar('URL'), '/');
   console.log('appended url = ', appendedUrl);
+  console.log('url href = ', url.href);
   return (
     <html>
       <head>
