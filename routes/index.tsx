@@ -2,11 +2,19 @@ import { useSignal } from '@preact/signals';
 import Counter from '../islands/Counter.tsx';
 import IconExternalLink from 'https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/external-link.tsx';
 import IconBrandGithub from 'https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/brand-github.tsx';
-import { Handlers } from '$fresh/server.ts';
+import { Handlers, PageProps } from '$fresh/server.ts';
 import { DbStruct, getCount, kv, setCount } from '../utils/db.ts';
 import Features from '../components/Features.tsx';
 import Header from '../components/Header.tsx';
 import { ServerSentEventStream } from 'https://deno.land/std@0.210.0/http/server_sent_event_stream.ts';
+import Footer from '../components/Footer.tsx';
+import { Credits } from '../components/Credits.tsx';
+import Hero from '../components/Hero.tsx';
+
+export type KvDataType = {
+  data: DbStruct;
+  latency: number;
+};
 
 export const handler: Handlers = {
   GET: async (req, ctx) => {
@@ -49,7 +57,6 @@ export const handler: Handlers = {
         },
       });
     }
-
     const startTime = Date.now();
     const data = await getCount();
     const endTime = Date.now();
@@ -65,13 +72,12 @@ export const handler: Handlers = {
     });
   },
 };
-export default function Home(
-  { data: { data, latency } }: {
-    data: { data: DbStruct; latency: number };
-  },
-) {
-  const count = useSignal(data.count ?? 0);
-  const counter = useSignal(data.totCount ?? 0);
+export default function Home(props: PageProps<KvDataType>) {
+  const { count, totCount } = props.data.data;
+  const latency = props.data.latency;
+
+  const countSignal = useSignal(count ?? 0);
+  const totCountSignal = useSignal(totCount ?? 0);
   const getRandom = Math.floor(Math.random() * 16777215).toString(16);
 
   return (
@@ -103,29 +109,22 @@ export default function Home(
           </a>
         </p>
         <Counter
-          count={count}
-          counter={counter}
+          count={countSignal}
+          counter={totCountSignal}
           latency={latency}
         />
       </div>
       <Features />
-      <div class={'p-4'}>
-        <div class={'px-4 sm:px-20'}>
-          <h2 class={'font-bold'}>Credits:</h2>
-          <ul class={'list-desc'}>
-            <li class={'flex font-semibold'}>
-              &#x2022;&nbsp;<a
-                class={'flex hover:text-blue-500 hover:underline'}
-                href={'https://github.com/hashrock/deno-avatar/tree/main'}
-                target={'_blank'}
-              >
-                Dino Avatar&nbsp;
-                <IconBrandGithub class='w-6 h-6' />
-              </a>
-            </li>
-          </ul>
-        </div>
+      <div class={'px-40 grid gap-4 grid-cols-2'}>
+        <Hero />
+        <Hero />
+        <Hero />
+        <Hero />
       </div>
+      <div class={'px-8 inline-flex flex-col'}>
+        <Credits />
+      </div>
+      <Footer />
     </>
   );
 }
