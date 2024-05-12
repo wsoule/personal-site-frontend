@@ -6,8 +6,9 @@ import { DbStruct, getCount, kv, setCount } from '../utils/db.ts';
 import Features from '../components/Features.tsx';
 import Footer from '../components/Footer.tsx';
 import { Credits } from '../components/Credits.tsx';
-import Hero from '../components/Hero.tsx';
+import RepoDisplay from '../components/Hero.tsx';
 import { getEnvVar } from '../utils/functions.ts';
+import { random } from '../../../../Library/Caches/deno/npm/registry.npmjs.org/nanoid/3.3.7/index.d.ts';
 
 export type DataType = {
   kvCount: DbStruct;
@@ -29,6 +30,8 @@ export type PinnableItemNode = {
   description: string | null;
   name: string;
   language: GithubLanguage;
+  url: string;
+  homepageUrl: string | null;
 };
 
 export type GithubData = {
@@ -99,6 +102,8 @@ query {
             }
             totalCount
           }
+          url
+          homepageUrl
         }
       }
     }
@@ -138,12 +143,33 @@ export default function Home(props: PageProps<HomeProps>) {
   const { nodes, kvCount } = props.data.data;
   const { count, totCount } = kvCount;
   const latency = props.data.latency;
-
   const countSignal = useSignal(count ?? 0);
   const totCountSignal = useSignal(totCount ?? 0);
   const getRandomColor = Math.floor(Math.random() * 16777215).toString(16);
   const getRandom = () => Math.floor(Math.random() * nodes.length);
-  console.log('random = ', nodes.length);
+  const arrOfRepos = [];
+  const previousUrls = new Set<string>([
+    'https://github.com/wsoule/jaden',
+    'https://github.com/wsoule/game-list',
+    'https://github.com/brass-raven/second-brain',
+    'https://github.com/Imagine-Software-Club/tech-interview',
+    'https://github.com/shadcn-ui/ui',
+    'https://github.com/community/community',
+    'https://github.com/DustinMEastway/dotfiles',
+    'https://github.com/Imagine-Software-Club/PRJ-VFHN4-VanityBlock',
+    'https://github.com/wsoule/kickstart.nvim',
+  ]);
+  for (let i = 0; i < 3; i++) {
+    let randomNode = nodes[getRandom()];
+    while (
+      previousUrls.has(randomNode.url)
+    ) {
+      randomNode = nodes[getRandom()];
+    }
+    previousUrls.add(randomNode.url);
+    arrOfRepos.push(randomNode);
+  }
+
   return (
     <>
       <div class='px-4 py-8 bg-[#86efac] mx-auto flex flex-col items-center justify-center'>
@@ -180,14 +206,33 @@ export default function Home(props: PageProps<HomeProps>) {
         />
       </div>
       <Features />
+
+      <h1 class='px-8 text-4xl inline-block font-bold'>
+        Here are some things I have worked on.
+      </h1>
+      <p class={'px-8 py-1 mb-4 text-gray-400'}>
+        Some are deployed while others are just sandboxes. Feel free to explore,
+        but keep in mind: some are quite old and probably have some pretty ugly
+        code.
+      </p>
       <div class={'px-8 mb-4 sm:px-40 grid gap-4 grid-cols-1 sm:grid-cols-2'}>
-        {nodes.map((repoNode) => {
-          return <h1>{repoNode.name}</h1>;
+        <RepoDisplay
+          url={'https://github.com/wsoule/game-list'}
+          description={'This was my first project that helped me fall in love with programming.'}
+          name='game-list'
+          deployUrl={null}
+        />
+        {arrOfRepos.map((repoNode) => {
+          return (
+            <RepoDisplay
+              url={repoNode.url}
+              description={repoNode.description}
+              name={repoNode.name}
+              key={repoNode.url}
+              deployUrl={repoNode.homepageUrl}
+            />
+          );
         })}
-        <Hero />
-        <Hero />
-        <Hero />
-        <Hero />
       </div>
       <div class={'px-8 inline-flex flex-col'}>
         <Credits />
