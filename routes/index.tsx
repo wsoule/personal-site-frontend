@@ -8,7 +8,6 @@ import Footer from '../components/Footer.tsx';
 import { Credits } from '../components/Credits.tsx';
 import RepoDisplay from '../components/Hero.tsx';
 import { getEnvVar } from '../utils/functions.ts';
-import { random } from '../../../../Library/Caches/deno/npm/registry.npmjs.org/nanoid/3.3.7/index.d.ts';
 
 export type DataType = {
   kvCount: DbStruct;
