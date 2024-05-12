@@ -45,7 +45,9 @@ export default function Counter(props: CounterProps) {
       >
         <div class={'flex items-center justify-between'}>
           <h1 class={'text-3xl'}>Counter</h1>
-          <IconInfoCircle class='w-6 h-6' />
+          <div class='group flex relative'>
+            <IconInfoCircle class='w-6 h-6' />
+          </div>
         </div>
         <div class='flex justify-between py-6'>
           <Button onClick={() => updateCount(false)}>-1</Button>

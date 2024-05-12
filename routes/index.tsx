@@ -1,19 +1,44 @@
 import { useSignal } from '@preact/signals';
 import Counter from '../islands/Counter.tsx';
 import IconExternalLink from 'https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/external-link.tsx';
-import IconBrandGithub from 'https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/brand-github.tsx';
 import { Handlers, PageProps } from '$fresh/server.ts';
 import { DbStruct, getCount, kv, setCount } from '../utils/db.ts';
 import Features from '../components/Features.tsx';
-import Header from '../components/Header.tsx';
-import { ServerSentEventStream } from 'https://deno.land/std@0.210.0/http/server_sent_event_stream.ts';
 import Footer from '../components/Footer.tsx';
 import { Credits } from '../components/Credits.tsx';
 import Hero from '../components/Hero.tsx';
+import { getEnvVar } from '../utils/functions.ts';
 
-export type KvDataType = {
-  data: DbStruct;
+export type DataType = {
+  kvCount: DbStruct;
+  nodes: PinnableItemNode[];
+};
+
+export type HomeProps = {
+  data: DataType;
   latency: number;
+};
+
+export type GithubLanguage = {
+  nodes: { name: string; color: string }[];
+  totalCount: number;
+};
+
+export type PinnableItemNode = {
+  __typename: 'Gist' | 'Repository';
+  description: string | null;
+  name: string;
+  language: GithubLanguage;
+};
+
+export type GithubData = {
+  data: {
+    user: {
+      pinnableItems: {
+        nodes: PinnableItemNode[];
+      };
+    };
+  };
 };
 
 export const handler: Handlers = {
@@ -58,7 +83,44 @@ export const handler: Handlers = {
       });
     }
     const startTime = Date.now();
-    const data = await getCount();
+    const query = `
+query {
+  user(login: "wsoule") {
+    pinnableItems(first: 100) {
+      nodes {
+        __typename
+        ... on Repository {
+          description
+          name
+          languages(first: 4) {
+            nodes {
+              name
+              color
+            }
+            totalCount
+          }
+        }
+      }
+    }
+  }
+}
+ `;
+    const githubResponseJson = await fetch('https://api.github.com/graphql', {
+      body: JSON.stringify({ query }),
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${getEnvVar('GITHUB_API_KEY')}`,
+      },
+    });
+    const githubReponseObject: GithubData = await githubResponseJson.json();
+    const { nodes: pinnableItemNodes } =
+      githubReponseObject.data.user.pinnableItems;
+
+    const data: DataType = {
+      kvCount: await getCount() as DbStruct,
+      nodes: pinnableItemNodes,
+    };
+
     const endTime = Date.now();
     const res = await ctx.render({ data, latency: endTime - startTime });
     res.headers.set('x-count-load-time', '' + (endTime - startTime));
@@ -72,20 +134,22 @@ export const handler: Handlers = {
     });
   },
 };
-export default function Home(props: PageProps<KvDataType>) {
-  const { count, totCount } = props.data.data;
+export default function Home(props: PageProps<HomeProps>) {
+  const { nodes, kvCount } = props.data.data;
+  const { count, totCount } = kvCount;
   const latency = props.data.latency;
 
   const countSignal = useSignal(count ?? 0);
   const totCountSignal = useSignal(totCount ?? 0);
-  const getRandom = Math.floor(Math.random() * 16777215).toString(16);
-
+  const getRandomColor = Math.floor(Math.random() * 16777215).toString(16);
+  const getRandom = () => Math.floor(Math.random() * nodes.length);
+  console.log('random = ', nodes.length);
   return (
     <>
       <div class='px-4 py-8 bg-[#86efac] mx-auto flex flex-col items-center justify-center'>
         <img
           class='my-6 rounded-full'
-          src={`https://deno-avatar.deno.dev/avatar/${getRandom}.svg`}
+          src={`https://deno-avatar.deno.dev/avatar/${getRandomColor}.svg`}
           width='128'
           height='128'
           alt='the Fresh logo: a sliced lemon dripping with juice'
@@ -115,7 +179,10 @@ export default function Home(props: PageProps<KvDataType>) {
         />
       </div>
       <Features />
-      <div class={'px-40 grid gap-4 grid-cols-2'}>
+      <div class={'px-8 mb-4 sm:px-40 grid gap-4 grid-cols-1 sm:grid-cols-2'}>
+        {nodes.map((repoNode) => {
+          return <h1>{repoNode.name}</h1>;
+        })}
         <Hero />
         <Hero />
         <Hero />
