@@ -176,6 +176,7 @@ export default function Home(props: PageProps<HomeProps>) {
           count={countSignal}
           counter={totCountSignal}
           latency={latency}
+          siteUrl={getEnvVar('URL')}
         />
       </div>
       <Features />
