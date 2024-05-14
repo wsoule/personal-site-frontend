@@ -1,25 +1,49 @@
-import IconAlarm from 'https://deno.land/x/tabler_icons_tsx@0.0.6/tsx/alarm.tsx';
-import IconAirBalloon from 'https://deno.land/x/tabler_icons_tsx@0.0.6/tsx/air-balloon.tsx';
-import IconArmchair from 'https://deno.land/x/tabler_icons_tsx@0.0.6/tsx/armchair.tsx';
-import IconChevronRight from 'https://deno.land/x/tabler_icons_tsx@0.0.6/tsx/chevron-right.tsx';
-import IconBrandGraphql from 'https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/brand-graphql.tsx';
+// import IconAlarm from 'https://deno.land/x/tabler_icons_tsx@0.0.6/tsx/alarm.tsx';
+import IconAlarm from '$icons/alarm.tsx';
+import IconArmchair from '$icons/armchair.tsx';
+import IconChevronRight from '$icons/chevron-right.tsx';
+import IconBrandGraphql from '$icons/brand-graphql.tsx';
 import { JSX } from 'preact/jsx-runtime';
 
-export type FeatureType = {
+export type Feature = {
   title: string;
   icon: typeof IconAlarm;
   description: string | JSX.Element;
   link?: string;
 };
 
-export default function Features() {
-  const featureItems: FeatureType[] = [
+export type Experience = {
+  title: string;
+  employer: string;
+  duties: string[];
+};
+
+export type FeaturesProps = {
+  experience: Experience[] | null;
+};
+
+export const Features = (props: FeaturesProps) => {
+  // call the deno.kv to get the list of positions
+  console.log(props.experience);
+  const featureItems: Feature[] = [
     {
       title: 'History',
       icon: IconBrandGraphql,
       description: (
         <>
-          Hello
+          <div>
+            <p>
+              <b>Student Softare Developer</b>
+            </p>
+            <p>- State of Michigan</p>
+          </div>
+          <p>- did things.</p>
+          <p>
+            <b>Software Engineer</b>
+          </p>{' '}
+          <p>
+            - Waggoner Financial
+          </p>
         </>
       ),
       link: '/Wyat_Soule.pdf',
@@ -70,4 +94,4 @@ export default function Features() {
       })}
     </div>
   );
-}
+};

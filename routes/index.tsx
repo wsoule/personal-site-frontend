@@ -2,20 +2,21 @@ import { useSignal } from '@preact/signals';
 import Counter from '../islands/Counter.tsx';
 import IconExternalLink from 'https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/external-link.tsx';
 import { Handlers, PageProps } from '$fresh/server.ts';
-import { DbStruct, getCount, kv, setCount } from '../utils/db.ts';
-import Features from '../components/Features.tsx';
+import { DbCount, getCount, getExperience, kv, setCount } from '../utils/db.ts';
+import { Experience, Features } from '../components/Features.tsx';
 import Footer from '../components/Footer.tsx';
 import { Credits } from '../components/Credits.tsx';
 import RepoDisplay from '../components/Hero.tsx';
 import { getEnvVar } from '../utils/functions.ts';
 
-export type DataType = {
-  kvCount: DbStruct;
+export type Data = {
+  kvCount: DbCount;
   nodes: PinnableItemNode[];
+  experience: Experience[] | null;
 };
 
 export type HomeProps = {
-  data: DataType;
+  data: Data;
   latency: number;
 };
 
@@ -120,9 +121,10 @@ query {
     const { nodes: pinnableItemNodes } =
       githubReponseObject.data.user.pinnableItems;
 
-    const data: DataType = {
-      kvCount: await getCount() as DbStruct,
+    const data: Data = {
+      kvCount: await getCount() as DbCount,
       nodes: pinnableItemNodes,
+      experience: await getExperience(),
     };
 
     const endTime = Date.now();
@@ -139,7 +141,7 @@ query {
   },
 };
 export default function Home(props: PageProps<HomeProps>) {
-  const { nodes, kvCount } = props.data.data;
+  const { experience, nodes, kvCount } = props.data.data;
   const { count, totCount } = kvCount;
   const latency = props.data.latency;
   const countSignal = useSignal(count ?? 0);
@@ -204,7 +206,7 @@ export default function Home(props: PageProps<HomeProps>) {
           siteUrl={getEnvVar('URL')}
         />
       </div>
-      <Features />
+      <Features experience={experience} />
 
       <h1 class='px-8 text-4xl inline-block font-bold'>
         Here are some things I have worked on.
