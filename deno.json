@@ -8,16 +8,8 @@
     "preview": "deno run -A main.ts",
     "update": "deno run -A -r https://fresh.deno.dev/update ."
   },
-  "lint": {
-    "rules": {
-      "tags": [
-        "recommended"
-      ]
-    }
-  },
-  "exclude": [
-    "**/_fresh/*"
-  ],
+  "lint": { "rules": { "tags": ["recommended", "fresh"] } },
+  "exclude": ["**/_fresh/*"],
   "fmt": {
     "useTabs": false,
     "lineWidth": 80,
@@ -25,17 +17,14 @@
     "semiColons": true,
     "singleQuote": true,
     "proseWrap": "preserve",
-    "include": [
-      "**/*"
-    ]
+    "include": ["**/*"]
   },
   "imports": {
     "$fresh/": "https://deno.land/x/fresh@1.6.8/",
     "$icons/": "https://deno.land/x/tabler_icons_tsx@0.0.6/tsx/",
-    "$std/": "https://deno.land/std@0.216.0/",
+    "$std/": "https://deno.land/std@0.224.0/",
     "@preact/signals": "https://esm.sh/*@preact/signals@1.2.2",
     "@preact/signals-core": "https://esm.sh/*@preact/signals-core@1.5.1",
-    "@std/http": "jsr:@std/http@^0.224.0",
     "preact": "https://esm.sh/preact@10.19.6",
     "preact/": "https://esm.sh/preact@10.19.6/",
     "tailwindcss": "npm:tailwindcss@3.4.1",
@@ -49,9 +38,7 @@
   },
   "deploy": {
     "project": "6c804a52-609f-413e-ae0c-e12c6dd93d29",
-    "exclude": [
-      "**/node_modules"
-    ],
+    "exclude": ["**/node_modules"],
     "include": [],
     "entrypoint": "main.ts"
   }

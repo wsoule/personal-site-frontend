@@ -18,6 +18,7 @@ export type Data = {
 export type HomeProps = {
   data: Data;
   latency: number;
+  joke: string;
 };
 
 export type GithubLanguage = {
@@ -128,7 +129,12 @@ query {
     };
 
     const endTime = Date.now();
-    const res = await ctx.render({ data, latency: endTime - startTime });
+    const joke = await fetch(req.url + 'api/joke');
+    const res = await ctx.render({
+      data,
+      latency: endTime - startTime,
+      joke: await joke.text(),
+    });
     res.headers.set('x-count-load-time', '' + (endTime - startTime));
     return res;
   },
@@ -182,7 +188,8 @@ export default function Home(props: PageProps<HomeProps>) {
           alt='the Fresh logo: a sliced lemon dripping with juice'
         />
         <h1 class='text-4xl font-bold'>Wyat Soule</h1>
-        <p class='my-4 flex'>
+        <p class='my-1'>{props.data.joke}</p>
+        <p class='my-1 flex'>
           Built with&nbsp;
           <a
             href={'https://fresh.deno.dev/'}
@@ -198,6 +205,7 @@ export default function Home(props: PageProps<HomeProps>) {
           >
             Deno<IconExternalLink class='w-5 h-5' />
           </a>
+          .
         </p>
         <Counter
           count={countSignal}
