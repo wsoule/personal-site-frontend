@@ -130,10 +130,8 @@ query {
 
     const endTime = Date.now();
     const jokeUrl = new URL('api/joke', req.url).href;
-    console.log(`Fetching joke from URL: ${jokeUrl}`);
     const response = await fetch(jokeUrl);
     const joke = await response.text();
-
     const res = await ctx.render({
       data,
       latency: endTime - startTime,
@@ -215,7 +213,7 @@ export default function Home(props: PageProps<HomeProps>) {
           count={countSignal}
           counter={totCountSignal}
           latency={latency}
-          siteUrl={getEnvVar('URL')}
+          siteUrl={props.route}
         />
       </div>
       <Features experience={experience} />

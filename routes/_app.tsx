@@ -1,8 +1,7 @@
 import { type PageProps } from '$fresh/server.ts';
 import Header from '../components/Header.tsx';
 import { getEnvVar } from '../utils/functions.ts';
-export default function App({ Component, url }: PageProps) {
-  const appendedUrl = url.href.replace(getEnvVar('URL'), '/');
+export default function App({ Component, route }: PageProps) {
   return (
     <html>
       <head>
@@ -12,7 +11,7 @@ export default function App({ Component, url }: PageProps) {
         <link rel='stylesheet' href='/styles.css' />
       </head>
       <body>
-        <Header active={appendedUrl} />
+        <Header active={route} />
         <Component />
       </body>
     </html>
