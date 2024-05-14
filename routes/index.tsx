@@ -8,6 +8,7 @@ import Footer from '../components/Footer.tsx';
 import { Credits } from '../components/Credits.tsx';
 import RepoDisplay from '../components/Hero.tsx';
 import { getEnvVar } from '../utils/functions.ts';
+import { handler as jokeHandler } from './api/joke.ts';
 
 export type Data = {
   kvCount: DbCount;
@@ -129,9 +130,7 @@ query {
     };
 
     const endTime = Date.now();
-    const jokeUrl = new URL('api/joke', req.url).href;
-    const response = await fetch(jokeUrl);
-    const joke = await response.text();
+    const joke = await jokeHandler(req, ctx).text();
     const res = await ctx.render({
       data,
       latency: endTime - startTime,
