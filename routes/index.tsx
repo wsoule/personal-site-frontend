@@ -129,11 +129,15 @@ query {
     };
 
     const endTime = Date.now();
-    const joke = await fetch(req.url + 'api/joke');
+    const jokeUrl = new URL('api/joke', req.url).href;
+    console.log(`Fetching joke from URL: ${jokeUrl}`);
+    const response = await fetch(jokeUrl);
+    const joke = await response.text();
+
     const res = await ctx.render({
       data,
       latency: endTime - startTime,
-      joke: await joke.text(),
+      joke: joke,
     });
     res.headers.set('x-count-load-time', '' + (endTime - startTime));
     return res;
