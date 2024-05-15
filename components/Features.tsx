@@ -5,13 +5,22 @@ import IconChevronRight from '$icons/chevron-right.tsx';
 import IconBrandGraphql from '$icons/brand-graphql.tsx';
 import { JSX } from 'preact/jsx-runtime';
 
-export type Feature = {
-  title: string;
-  icon: typeof IconAlarm;
-  description: string | JSX.Element;
-  link?: string;
-  linkName?: string;
-};
+export type Feature =
+  & {
+    title: string;
+    icon: typeof IconAlarm;
+    description: string | JSX.Element;
+  }
+  & (
+    | {
+      link: string;
+      linkName?: string;
+    }
+    | {
+      link?: never;
+      linkName?: never;
+    }
+  );
 
 export type Experience = {
   title: string;
