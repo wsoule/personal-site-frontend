@@ -1,14 +1,15 @@
 import { useSignal } from '@preact/signals';
-import Counter from '../islands/Counter.tsx';
+import Counter from '@/islands/Counter.tsx';
 import IconExternalLink from 'https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/external-link.tsx';
 import { Handlers, PageProps } from '$fresh/server.ts';
-import { DbCount, getCount, getExperience, kv, setCount } from '../utils/db.ts';
-import { Experience, Features } from '../components/Features.tsx';
-import Footer from '../components/Footer.tsx';
-import { Credits } from '../components/Credits.tsx';
-import RepoDisplay from '../components/Hero.tsx';
-import { getEnvVar } from '../utils/functions.ts';
-import { handler as jokeHandler } from './api/joke.ts';
+import { DbCount, getCount, getExperience, kv, setCount } from '@/utils/db.ts';
+import { Experience, Features } from '@/components/Features.tsx';
+import Footer from '@/components/Footer.tsx';
+import { Credits } from '@/components/Credits.tsx';
+import RepoDisplay from '@/components/Hero.tsx';
+import { getEnvVar } from '@/utils/functions.ts';
+import { Head } from '$fresh/runtime.ts';
+import { handler as jokeHandler } from '@/routes/api/joke.ts';
 
 export type Data = {
   kvCount: DbCount;
@@ -180,6 +181,13 @@ export default function Home(props: PageProps<HomeProps>) {
 
   return (
     <>
+      <Head>
+        <meta
+          name='description'
+          content='A page to talk about Wyat Soule.'
+          key='description'
+        />
+      </Head>
       <div class='px-4 py-8 bg-[#86efac] mx-auto flex flex-col items-center justify-center'>
         <img
           class='my-6 rounded-full'

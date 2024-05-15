@@ -1,6 +1,5 @@
 import { type PageProps } from '$fresh/server.ts';
-import Header from '../components/Header.tsx';
-import { getEnvVar } from '../utils/functions.ts';
+import Header from '@/components/Header.tsx';
 export default function App({ Component, route }: PageProps) {
   return (
     <html>

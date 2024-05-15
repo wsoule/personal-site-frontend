@@ -10,6 +10,7 @@ export type Feature = {
   icon: typeof IconAlarm;
   description: string | JSX.Element;
   link?: string;
+  linkName?: string;
 };
 
 export type Experience = {
@@ -47,6 +48,7 @@ export const Features = (props: FeaturesProps) => {
         </>
       ),
       link: '/Wyat_Soule.pdf',
+      linkName: 'Resume',
     },
     {
       title: 'Goals',
@@ -81,7 +83,7 @@ export const Features = (props: FeaturesProps) => {
               (
                 <a class='block' href={item.link}>
                   <p class='text-blue-600 cursor-pointer hover:underline inline-flex items-center group'>
-                    Read More{' '}
+                    {item.linkName || <>Read More</>}{' '}
                     <IconChevronRight
                       class='inline-block w-5 h-5 transition group-hover:translate-x-0.5'
                       aria-hidden='true'
