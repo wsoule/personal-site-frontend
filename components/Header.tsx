@@ -5,20 +5,28 @@ type Props = {
   active: string;
 };
 
+type NavMenu = {
+  name: string;
+  href: string;
+};
+
 export default function Header({ active }: Props) {
-  const menus = [
+  const menus: NavMenu[] = [
     { name: 'Home', href: '/' },
     { name: 'Components', href: '/components' },
     { name: 'Docs', href: '/docs' },
+    { name: 'Blog', href: '/blog' },
   ];
 
   return (
     <div class='bg-white w-full py-6 px-8 flex flex-col md:flex-row gap-4'>
-      <div class='flex items-center flex-1'>
-        <LemonIcon aria-hidden='true' />
-        <div class='text-2xl ml-1 font-bold'>
-          Wyat
-        </div>
+      <div class='flex flex-1'>
+        <a class={'flex items-center'} href={'/'}>
+          <LemonIcon aria-hidden='true' />
+          <div class='text-2xl ml-1 font-bold'>
+            Wyat
+          </div>
+        </a>
       </div>
       <ul class='flex items-center gap-6'>
         {menus.map((menu) => (
