@@ -1,5 +1,6 @@
 import { type PageProps } from '$fresh/server.ts';
 import Header from '@/components/Header.tsx';
+import { Partial } from '$fresh/runtime.ts';
 export default function App({ Component, route }: PageProps) {
   return (
     <html>
@@ -9,9 +10,11 @@ export default function App({ Component, route }: PageProps) {
         <title>Wyat Soule</title>
         <link rel='stylesheet' href='/styles.css' />
       </head>
-      <body>
-        <Header active={route} />
-        <Component />
+      <body f-client-nav>
+        <Partial name='body'>
+          <Header active={route} />
+          <Component />
+        </Partial>
       </body>
     </html>
   );

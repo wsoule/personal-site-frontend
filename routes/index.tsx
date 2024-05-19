@@ -188,42 +188,44 @@ export default function Home(props: PageProps<HomeProps>) {
           key='description'
         />
       </Head>
-      <div class='px-4 py-8 bg-[#86efac] mx-auto flex flex-col items-center justify-center'>
-        <img
-          class='my-6 rounded-full'
-          src={`https://deno-avatar.deno.dev/avatar/${getRandomColor}.svg`}
-          width='128'
-          height='128'
-          alt='the Fresh logo: a sliced lemon dripping with juice'
-        />
-        <h1 class='text-4xl font-bold'>Wyat Soule</h1>
-        <p class='my-1'>{props.data.joke}</p>
-        <p class='my-1 flex'>
-          Built with&nbsp;
-          <a
-            href={'https://fresh.deno.dev/'}
-            class={'flex hover:text-blue-500 hover:underline'}
-            target={'_blank'}
-          >
-            Fresh<IconExternalLink class='w-5 h-5' />
-          </a>, by&nbsp;
-          <a
-            class={'flex hover:text-blue-500 hover:underline'}
-            href={'https://deno.com/'}
-            target={'_blank'}
-          >
-            Deno<IconExternalLink class='w-5 h-5' />
-          </a>
-          .
-        </p>
-        <Counter
-          count={countSignal}
-          counter={totCountSignal}
-          latency={latency}
-          siteUrl={props.route}
-        />
+      <div class={'grid sm:grid-cols-2  bg-[#86efac] '}>
+        <div class='px-4 py-8 mx-auto flex flex-col items-center justify-center'>
+          <img
+            class='my-6 rounded-full'
+            src={`https://deno-avatar.deno.dev/avatar/${getRandomColor}.svg`}
+            width='128'
+            height='128'
+            alt='the Fresh logo: a sliced lemon dripping with juice'
+          />
+          <h1 class='text-4xl font-bold'>Wyat Soule</h1>
+          <p class='my-1'>{props.data.joke}</p>
+          <p class='my-1 flex'>
+            Built with&nbsp;
+            <a
+              href={'https://fresh.deno.dev/'}
+              class={'flex hover:text-blue-500 hover:underline'}
+              target={'_blank'}
+            >
+              Fresh<IconExternalLink class='w-5 h-5' />
+            </a>, by&nbsp;
+            <a
+              class={'flex hover:text-blue-500 hover:underline'}
+              href={'https://deno.com/'}
+              target={'_blank'}
+            >
+              Deno<IconExternalLink class='w-5 h-5' />
+            </a>
+            .
+          </p>
+          <Counter
+            count={countSignal}
+            counter={totCountSignal}
+            latency={latency}
+            siteUrl={props.route}
+          />
+        </div>
+        <Features experience={experience} />
       </div>
-      <Features experience={experience} />
 
       <h1 class='px-8 text-4xl inline-block font-bold'>
         Here are some things I have worked on.

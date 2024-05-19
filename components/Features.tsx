@@ -74,12 +74,15 @@ export const Features = (props: FeaturesProps) => {
   ];
 
   return (
-    <div class='flex flex-col md:flex-row gap-8 bg-white p-8'>
+    <div class='flex flex-col gap-8  p-8'>
       {featureItems.map((item) => {
         return (
           <div class='flex-1 space-y-2'>
-            <div class='bg-blue-600 flex items-center p-3 align-middle rounded-xl text-white'>
-              <item.icon class='w-10 h-10' aria-hidden='true' />
+            <div class='flex items-center align-middle rounded-xl bg-green-500 bg-opacity-50'>
+              <item.icon
+                class='w-10 h-10 bg-blue-600 p-1 rounded-xl text-white'
+                aria-hidden='true'
+              />
               <p class={'text-3xl font-bold justify-self-center ml-5'}>
                 {item.title}
               </p>

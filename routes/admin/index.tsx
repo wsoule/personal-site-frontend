@@ -1,6 +1,6 @@
-import Input from '../../islands/Input.tsx';
 import type { Handlers, PageProps } from '$fresh/server.ts';
 import { getCookies } from '$std/http/cookie.ts';
+import { Input } from '@/components/Input.tsx';
 
 export type AuthData = {
   isAllowed: boolean;
